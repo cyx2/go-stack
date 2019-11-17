@@ -20,19 +20,48 @@ func main() {
 	stk.PrintLen()
 
 	var e1 Element = Element{5}
-	fmt.Printf("Adding element with value %v...\n", e1.Value)
+	// fmt.Printf("Adding element with value %v...\n", e1.Value)
 	stk.Add(&e1)
-	stk.PrintAll()
+	// stk.PrintAll()
 
 	var e2 Element = Element{9}
-	fmt.Printf("Adding element with value %v...\n", e2.Value)
+	// fmt.Printf("Adding element with value %v...\n", e2.Value)
 	stk.Add(&e2)
-	stk.PrintAll()
+	// stk.PrintAll()
 
 	var e3 Element = Element{"Wow"}
-	fmt.Printf("Adding element with value %v...\n", e3.Value)
+	// fmt.Printf("Adding element with value %v...\n", e3.Value)
 	stk.Add(&e3)
 	stk.PrintAll()
+
+	fmt.Println("Attempting to pop top element")
+	pop1 := stk.Pop()
+	fmt.Printf("Popped element with value %v\n", *pop1)
+
+	fmt.Print("New stack comprises...")
+	stk.PrintAll()
+	stk.PrintTop()
+}
+
+// Pop returns the top value of the stack and removes it from the stack
+func (s *Stack) Pop() (e *Element) {
+	poppedElem := s.topElem
+
+	if s.len >= 2 {
+		s.elements = s.elements[1:s.len]
+		s.len = s.len - 1
+		topElemPtr := s.elements[0]
+		s.topElem = &topElemPtr
+	} else if s.len == 1 {
+		s.elements = nil
+		s.topElem = nil
+		s.len = s.len - 1
+	} else {
+		fmt.Println("Cannot pop - no elements in stack")
+		return s.topElem
+	}
+
+	return poppedElem
 }
 
 // PrintLen prints the length of the stack
